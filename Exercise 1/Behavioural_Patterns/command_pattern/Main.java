@@ -5,9 +5,6 @@ import java.util.logging.Logger;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Client program for Virtual Classroom mute/unmute functionality (multiple students).s
- */
 public class Main {
 
     private static final Logger logger = Logger.getLogger(Main.class.getName());

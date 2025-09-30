@@ -1,0 +1,78 @@
+@startuml DecoratorPatternClassDiagram
+
+!define INTERFACE_COLOR #lightblue
+!define ABSTRACT_CLASS_COLOR #lightyellow
+!define CONCRETE_CLASS_COLOR #white
+
+skinparam class {
+    BackgroundColor <<interface>> INTERFACE_COLOR
+    BackgroundColor <<abstract>> ABSTRACT_CLASS_COLOR
+    BackgroundColor <<concrete>> CONCRETE_CLASS_COLOR
+    BorderColor Black
+    ArrowColor Black
+    FontSize 12
+}
+
+title Decorator Pattern Class Diagram\n(Excluding Main Class)
+
+' Interface
+interface FeeComponent <<interface>> {
+    + {abstract} double getFee()
+    + {abstract} String getDescription()
+}
+
+' Concrete Component
+class TuitionFee <<concrete>> {
+    - tuitionAmount: double
+    + TuitionFee(tuitionAmount: double)
+    + getFee(): double
+    + getDescription(): String
+}
+
+' Abstract Decorator
+abstract class FeeDecorator <<abstract>> {
+    # feeComponent: FeeComponent
+    + FeeDecorator(feeComponent: FeeComponent)
+    + getFee(): double
+    + getDescription(): String
+}
+
+' Concrete Decorators
+class HostelFeeDecorator <<concrete>> {
+    - hostelFee: double
+    + HostelFeeDecorator(feeComponent: FeeComponent, hostelFee: double)
+    + getFee(): double
+    + getDescription(): String
+}
+
+class ScholarshipDiscountDecorator <<concrete>> {
+    - discount: double
+    + ScholarshipDiscountDecorator(feeComponent: FeeComponent, discount: double)
+    + getFee(): double
+    + getDescription(): String
+}
+
+class SportsFeeDecorator <<concrete>> {
+    - sportsFee: double
+    + SportsFeeDecorator(feeComponent: FeeComponent, sportsFee: double)
+    + getFee(): double
+    + getDescription(): String
+}
+
+' Relations
+FeeComponent <|-- TuitionFee : implements
+FeeComponent <|-- FeeDecorator : implements
+FeeDecorator <|-- HostelFeeDecorator : extends
+FeeDecorator <|-- ScholarshipDiscountDecorator : extends
+FeeDecorator <|-- SportsFeeDecorator : extends
+
+FeeDecorator o-- "1" FeeComponent : wraps
+
+note top of FeeComponent : Core interface for fee calculation\nand description
+note top of TuitionFee : Concrete component\n(Base fee)
+note top of FeeDecorator : Abstract decorator\n(Adds behavior dynamically)
+note top of HostelFeeDecorator : Adds hostel fee
+note top of ScholarshipDiscountDecorator : Applies discount
+note top of SportsFeeDecorator : Adds sports fee
+
+@enduml
